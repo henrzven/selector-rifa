@@ -1,6 +1,6 @@
-<p align="left">
-    <img alt="Selector de Nombres Aleatorios para Sorteo" src="./logo.png" width="100" />
-</p>
+
+![Octogatos_onWhite_Full](https://github.com/githubpresente/selector-rifa/assets/20666190/f6c1c179-60e5-45fe-b63d-e5ad95628ae3)
+
 
 Selector aleatorio de nombres para sorteos en GitHub
 :pray: En primer lugar, queremos dar un enorme reconocimiento a @icelam por proporcionarnos un excelente y sencillo selector de nombres que pudimos bifurcar y utilizar para el stand de GitHub.
