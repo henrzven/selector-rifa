@@ -32,7 +32,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           START_DATE: ${{ env.START_DATE }}
           END_DATE: ${{ env.END_DATE }}
-          ORGANIZATION: <YOUR_ORGANIZATION_GOES_HERE>
+          ORGANIZATION: githubpresente
           SPONSOR_INFO: "true"
   
       - name: Create issue
