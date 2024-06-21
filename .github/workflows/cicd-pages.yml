@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ISSUE_ID: 72
+  ISSUE_ID: 74
 
 jobs:
   # Build job
