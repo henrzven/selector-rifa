@@ -7,7 +7,7 @@ Selector aleatorio de nombres para sorteos en GitHub
 
 :rocket: Este sitio está desplegado en GitHub Pages utilizando GitHub Actions. El flujo de trabajo de Actions recopila a los participantes de los comentarios en un Issue de GitHub.
 
-:ticket: Para participar en el sorteo agrega un comentario en este [Issue](https://github.com/githubpresente/random-name-picker/issues/1)
+
 
 A continuación se muestra el README original:
 
