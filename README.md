@@ -3,7 +3,7 @@
 
 
 Selector aleatorio de nombres para sorteos en GitHub
-:pray: En primer lugar, queremos dar un enorme reconocimiento a @icelam por proporcionarnos un excelente y sencillo selector de nombres que pudimos bifurcar y utilizar para el stand de GitHub.
+En primer lugar, queremos dar un enorme reconocimiento a @icelam por proporcionarnos un excelente y sencillo selector de nombres que pudimos bifurcar y utilizar para el stand de GitHub.
 
 :rocket: Este sitio está desplegado en GitHub Pages utilizando GitHub Actions. El flujo de trabajo de Actions recopila a los participantes de los comentarios en un Issue de GitHub.
 
