@@ -78,7 +78,7 @@ import SoundEffects from '@js/SoundEffects';
     sunburstSvg.style.display = 'none';
   };
 
-  /**  Function to be trigger before spinning */
+  /**  Function to be triggered before spinning */
   const onSpinStart = () => {
     stopWinningAnimation();
     drawButton.disabled = true;
@@ -86,7 +86,7 @@ import SoundEffects from '@js/SoundEffects';
     soundEffects.spin((MAX_REEL_ITEMS - 1) / 10);
   };
 
-  /**  Functions to be trigger after spinning */
+  /**  Functions to be triggered after spinning */
   const onSpinEnd = async () => {
     confettiAnimation();
     sunburstSvg.style.display = 'block';
@@ -105,11 +105,13 @@ import SoundEffects from '@js/SoundEffects';
   });
 
   const getNames = async () => {
-    const res = await fetch('names.txt');
-    const names = await res.text();
-    const arr = names.split('\n');
-    for (let i = 0; i < arr.length; i++) {
-      slot.names.push(arr[i]);
+    try {
+      const res = await fetch('names.txt');
+      const names = await res.text();
+      const arr = names.split('\n').filter(name => name.trim());
+      slot.names = arr;
+    } catch (error) {
+      console.error('Error fetching names:', error);
     }
   };
   getNames();
@@ -139,21 +141,18 @@ import SoundEffects from '@js/SoundEffects';
   });
 
   // Hide fullscreen button when it is not supported
-  if (!(document.documentElement.requestFullscreen && document.exitFullscreen)) {
+  if (!document.documentElement.requestFullscreen || !document.exitFullscreen) {
     fullscreenButton.remove();
+  } else {
+    // Click handler for "Fullscreen" button
+    fullscreenButton.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    });
   }
-
-  // Click handler for "Fullscreen" button
-  fullscreenButton.addEventListener('click', () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      return;
-    }
-
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  });
 
   // Click handler for "Settings" button
   settingsButton.addEventListener('click', onSettingsOpen);
