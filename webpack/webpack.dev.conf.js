@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const Webpack = require('webpack');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const dotenv = require('dotenv');
 const autoprefixer = require('autoprefixer');
@@ -28,33 +28,42 @@ const clientEnv = getClientEnvironment('development');
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
-  target: 'web', // to have hot reload to work, production should use 'browserslist'
-  devtool: 'inline-source-map',
+  target: 'web',
+  devtool: 'eval-cheap-module-source-map',
   output: {
+    filename: 'assets/js/[name].js',
     chunkFilename: 'assets/js/[name].chunk.js'
   },
   devServer: {
-    inline: true,
+    static: {
+      directory: path.join(__dirname, '../public'),
+    },
     host: '0.0.0.0',
     port: 8888,
-    overlay: {
-      warnings: false,
-      errors: true
-    }
+    historyApiFallback: true,
+    hot: true,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true
+      },
+    },
   },
   plugins: [
-    new Webpack.DefinePlugin(clientEnv.stringified)
+    new webpack.DefinePlugin(clientEnv.stringified),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.ts?$/,
-        exclude: (file) => /node_modules\//.test(file),
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
         use: [
           'babel-loader',
           {
             loader: 'ts-loader',
             options: {
+              transpileOnly: true,
               compilerOptions: {
                 noEmit: false
               }
@@ -63,7 +72,7 @@ module.exports = merge(baseWebpackConfig, {
         ]
       },
       {
-        test: /\.(js)$/,
+        test: /\.jsx?$/,
         include: path.resolve(__dirname, '../src'),
         loader: 'babel-loader'
       },
@@ -74,14 +83,14 @@ module.exports = merge(baseWebpackConfig, {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true
+              sourceMap: true,
+              importLoaders: 2
             }
           },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                ident: 'postcss',
                 plugins: [
                   autoprefixer()
                 ]
@@ -97,5 +106,11 @@ module.exports = merge(baseWebpackConfig, {
         ]
       }
     ]
+  },
+  optimization: {
+    moduleIds: 'named',
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false,
   }
 });
