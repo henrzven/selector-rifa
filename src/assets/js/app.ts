@@ -45,15 +45,15 @@ import SoundEffects from '@js/SoundEffects';
   const soundEffects = new SoundEffects();
   const MAX_REEL_ITEMS = 40;
   const CONFETTI_COLORS = ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff'];
-  let confettiAnimationId;
+  let confettiAnimationId: number;
 
-  /** Confeetti animation instance */
+  /** Confetti animation instance */
   const customConfetti = confetti.create(confettiCanvas, {
     resize: true,
     useWorker: true
   });
 
-  /** Triggers cconfeetti animation until animation is canceled */
+  /** Triggers confetti animation until animation is canceled */
   const confettiAnimation = () => {
     const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
     const confettiScale = Math.max(0.5, Math.min(1, windowWidth / 1100));
@@ -72,7 +72,7 @@ import SoundEffects from '@js/SoundEffects';
 
   /** Function to stop the winning animation */
   const stopWinningAnimation = () => {
-    if (confettiAnimationId()) {
+    if (confettiAnimationId) {
       window.cancelAnimationFrame(confettiAnimationId);
     }
     sunburstSvg.style.display = 'none';
@@ -130,7 +130,7 @@ import SoundEffects from '@js/SoundEffects';
 
   // Click handler for "Draw" button
   drawButton.addEventListener('click', () => {
-    if (!slot.names.length()) {
+    if (!slot.names.length) {
       onSettingsOpen();
       return;
     }
@@ -139,18 +139,18 @@ import SoundEffects from '@js/SoundEffects';
   });
 
   // Hide fullscreen button when it is not supported
-  if (!(document.documentElement.requestFullscreen && document.exitFullscreen()) {
+  if (!(document.documentElement.requestFullscreen && document.exitFullscreen)) {
     fullscreenButton.remove();
   }
 
   // Click handler for "Fullscreen" button
   fullscreenButton.addEventListener('click', () => {
-    if (!document.fullscreenElement()) {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
       return;
     }
 
-    if (document.exitFullscreen()) {
+    if (document.exitFullscreen) {
       document.exitFullscreen();
     }
   });
