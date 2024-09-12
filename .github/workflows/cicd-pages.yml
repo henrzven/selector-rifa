@@ -1,23 +1,16 @@
 name: Deploy to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-  
-  # Runs on new issue comments
   issue_comment:
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -26,7 +19,6 @@ env:
   ISSUE_ID: 799
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -36,41 +28,38 @@ jobs:
         run: echo ${{ env.ISSUE_ID }}
       - name: Setup Pages
         uses: actions/configure-pages@v1
-      - name: Set up node with nvm
-        uses: dcodeIO/setup-node-nvm@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.12.0'
       - name: Yarn install
         run: yarn install
       - name: Yarn build
         run: yarn build
-        
       - name: Pre-populate the list of names from an Issue
         uses: actions/github-script@v6
         with:
           script: |
-            const fs = require('fs')
-            
+            const fs = require('fs');
             await github.paginate(github.rest.issues.listComments,
               { owner: 'githubpresente', repo: 'selector-rifa', issue_number: ${{ env.ISSUE_ID }} },
               (response) => response.data.map((issuecomment) => issuecomment.user.login)
             )
             .then((commenters) => {
-              const unique = Array.from(new Set(commenters)) 
-              const content = unique.join('\n')
+              const unique = Array.from(new Set(commenters));
+              const content = unique.join('\n');
               fs.writeFile('dist/names.txt', content, err => {
                 if (err) {
                   console.error(err);
                 }
-                // file written successfully
-                console.log(unique.length + ' entries added, (' + (commenters.length - unique.length) + ' duplicates removed)')
+                console.log(unique.length + ' entries added, (' + (commenters.length - unique.length) + ' duplicates removed)');
               });
-            }); 
-            
+            });
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: dist
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -81,3 +70,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+      - name: Set deployment URL
+        run: echo "page_url=${{ steps.deployment.outputs.page_url }}" >> $GITHUB_ENV
