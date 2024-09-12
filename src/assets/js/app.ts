@@ -72,7 +72,7 @@ import SoundEffects from '@js/SoundEffects';
 
   /** Function to stop the winning animation */
   const stopWinningAnimation = () => {
-    if (confettiAnimationId) {
+    if (confettiAnimationId()) {
       window.cancelAnimationFrame(confettiAnimationId);
     }
     sunburstSvg.style.display = 'none';
@@ -130,7 +130,7 @@ import SoundEffects from '@js/SoundEffects';
 
   // Click handler for "Draw" button
   drawButton.addEventListener('click', () => {
-    if (!slot.names.length) {
+    if (!slot.names.length()) {
       onSettingsOpen();
       return;
     }
@@ -139,18 +139,18 @@ import SoundEffects from '@js/SoundEffects';
   });
 
   // Hide fullscreen button when it is not supported
-  if (!(document.documentElement.requestFullscreen && document.exitFullscreen)) {
+  if (!(document.documentElement.requestFullscreen && document.exitFullscreen()) {
     fullscreenButton.remove();
   }
 
   // Click handler for "Fullscreen" button
   fullscreenButton.addEventListener('click', () => {
-    if (!document.fullscreenElement) {
+    if (!document.fullscreenElement()) {
       document.documentElement.requestFullscreen();
       return;
     }
 
-    if (document.exitFullscreen) {
+    if (document.exitFullscreen()) {
       document.exitFullscreen();
     }
   });
