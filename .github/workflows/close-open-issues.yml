@@ -12,9 +12,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.issues }}
         run: |
           curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/gittogethers/selector-rifa/issues?state=open" \
+            "https://api.github.com/repos/henrzven/selector-rifa/issues?state=open" \
             | jq -r '.[] | .number' \
             | xargs -I {} curl -s -X PATCH \
             -H "Authorization: token $GITHUB_TOKEN" \
             -d '{"state": "closed"}' \
-            "https://api.github.com/repos/gittogethers/selector-rifa/issues/{}"
+            "https://api.github.com/repos/henrzven/selector-rifa/issues/{}"
