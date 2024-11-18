@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ISSUE_ID: 190
+  ISSUE_ID: 1
 
 jobs:
   build:
@@ -42,7 +42,7 @@ jobs:
           script: |
             const fs = require('fs');
             await github.paginate(github.rest.issues.listComments,
-              { owner: 'githubpresente', repo: 'selector-rifa', issue_number: ${{ env.ISSUE_ID }} },
+              { owner: 'henrzven', repo: 'selector-rifa', issue_number: ${{ env.ISSUE_ID }} },
               (response) => response.data.map((issuecomment) => issuecomment.user.login)
             )
             .then((commenters) => {
